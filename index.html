@@ -114,9 +114,9 @@ section.s{padding:84px 0}
 /* gallery */
 .gal{max-width:900px}
 .stage{position:relative;aspect-ratio:16/9;background:#0b0b0b;overflow:hidden;box-shadow:0 16px 40px #0004}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity .8s}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .5s}
 .slide.on{opacity:1}
-.slide img{width:100%;height:100%;object-fit:contain;transform:scale(1.07);transition:transform 5s ease-out}
+.slide img{width:100%;height:100%;object-fit:contain;transform:scale(1.07);transition:transform 3.2s ease-out}
 .slide.on img{transform:scale(1)}
 .ar{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border:0;background:#000a;color:#fff;font-size:18px;cursor:pointer;z-index:3;transition:background .2s}
 .ar:hover{background:var(--red)}
@@ -275,12 +275,32 @@ footer .logo img{height:76px}
 .fab:hover{filter:brightness(1.08)}
 .fab.fb{background:var(--red);padding:12px 20px;border-radius:999px;line-height:inherit;box-shadow:0 8px 22px #0007}
 .share{position:relative;text-align:center;margin-top:30px}
-.sharemenu{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);z-index:5;min-width:220px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px #0003;padding:6px;text-align:left}
-.sharemenu[hidden]{display:none}
-.sharemenu a,.sharemenu button{display:block;width:100%;border:0;background:none;text-align:left;font:inherit;font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;padding:12px 14px;cursor:pointer}
-.sharemenu a:hover,.sharemenu button:hover{background:var(--bg2)}
 .sharebtn{border:0;background:var(--red);color:#fff;font:700 14px inherit;font-family:inherit;padding:14px 30px;cursor:pointer;transition:background .2s}
 .sharebtn:hover{background:#b8000e}
+
+.pg{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--red);z-index:3;pointer-events:none}
+@keyframes pgr{to{width:100%}}
+.shm{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;background:#000b;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.shm[hidden]{display:none}
+body.shopen{overflow:hidden}
+.shb{position:relative;width:min(440px,100%);max-height:100%;overflow-y:auto;background:#fff;border-top:5px solid var(--red);padding:30px 26px 26px;box-shadow:0 20px 50px #0006;animation:shin .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes shin{from{opacity:0;transform:translateY(24px)}}
+.shx{position:absolute;top:8px;right:10px;width:38px;height:38px;border:0;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--ink)}
+.shx:hover{color:var(--red)}
+.shb h3{margin:0;color:var(--red);font-size:24px;line-height:1.2}
+.shb p{margin:4px 0 20px;font-size:13px;color:var(--mut)}
+.shg{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:16px 8px;margin-bottom:22px}
+.shg a{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;font-size:12px;font-weight:700;color:var(--ink);transition:transform .2s}
+.shg a:hover{transform:translateY(-3px)}
+.ico{display:grid;place-items:center;width:62px;height:62px;border-radius:16px;object-fit:cover;color:#fff;font-weight:900;font-size:14px;box-shadow:0 4px 10px #0003}
+.ico.ln{background:#06c755}.ico.fbk{background:#1877f2;font-size:32px}.ico.th{background:#000;font-size:28px}.ico.bs{background:#1185fe;font-size:28px}
+.shu{display:flex;gap:8px}
+.shu input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg2);padding:11px 12px;font-family:inherit;font-size:13px;color:var(--ink)}
+.shu button,.shn{border:0;background:var(--black);color:#fff;font-family:inherit;font-weight:700;font-size:13px;padding:0 16px;cursor:pointer;white-space:nowrap;transition:background .2s}
+.shu button:hover,.shn:hover{background:var(--red)}
+.shu button.ok{background:#1a9b3c}
+.shn{display:block;width:100%;margin-top:10px;padding:12px}
+.shn[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -478,6 +498,7 @@ footer .logo img{height:76px}
         <div class="stage" id="stage">
           <button class="ar l" id="prev" aria-label="前へ">‹</button>
           <button class="ar r" id="next" aria-label="次へ">›</button>
+          <i class="pg" id="pg"></i>
         </div>
         <div class="crow"><b id="cap"></b><span class="en" id="cnt"></span></div>
         <div class="thumbs" id="thumbs"></div>
@@ -508,12 +529,7 @@ footer .logo img{height:76px}
       <details class="rv"><summary>登録者数や再生回数はリアルタイムですか？</summary><p>「Stats」の数字は、TubeScopeのライブカウンターを表示しています。</p></details>
       <details class="rv"><summary>お問い合わせはどうすればいいですか？</summary><p>ページ下の「お問い合わせ」から、メール（iroiroch.mail@gmail.com）でご連絡ください。</p></details>
       <div class="share rv"><button class="sharebtn" id="share" type="button" aria-haspopup="true">このサイトをシェア</button>
-        <div class="sharemenu" id="sharemenu" hidden>
-          <a id="sx" target="_blank" rel="noopener">X（Twitter）でシェア</a>
-          <a id="sline" target="_blank" rel="noopener">LINEでシェア</a>
-          <a id="sfb" target="_blank" rel="noopener">Facebookでシェア</a>
-          <button type="button" id="scopy">URLをコピー</button>
-        </div></div>
+        </div>
     </div>
   </section>
 
@@ -544,6 +560,22 @@ footer .logo img{height:76px}
   </div>
 </footer>
 
+<div class="shm" id="shm" role="dialog" aria-modal="true" aria-labelledby="shtt" hidden>
+  <div class="shb">
+    <button class="shx" id="shclose" type="button" aria-label="閉じる">×</button>
+    <h3 class="en" id="shtt">SHARE</h3>
+    <p>色々ちゃんねるのホームページをシェアしてね！</p>
+    <div class="shg">
+      <a id="sx" target="_blank" rel="noopener" aria-label="Xでシェア"><img class="ico" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAgVBMVEUAAAD////8/PwFBQX6+voICAj39/fCwsLn5+cMDAz09PTv7+/t7e3W1tYaGhrPz89TU1NFRUXi4uKoqKiioqJ9fX2wsLCWlpYVFRXFxcVYWFg8PDzS0tIiIiIzMzOHh4dmZmaDg4OPj49vb2+3t7cmJiZgYGA3NzdtbW1LS0stLS22TzbXAAAOgElEQVR4nO1diXbivA72DglLKbSspTAtXd//AUeS7RAHCgECCef4m/nvuYMhWLas3YKxiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIJkMiSrxJV/Rd2f9LKnhguW/V8OfYm3SJVSj3ZdquFDxtWsUDS31pybdVQWE1y3QyRrPWcQxYJVzKftzzNpvWcwUPLIcBPw6Rfl28A8joj8I/kLdvyKVPXBwkD+Zj+AzP0CUkoqz6FVwIBc8TIn2sjIKj38zY7BiF3Aj+xpKL5B9yQE8oo7hCMudlBUAFSNjiKJMqmNeFbJpINuI8he0DAvm8tIi7HHg83o+RqIC3hpdNik6DMQaOhAKGKKGiKkUPj4anJeRZpfzQ6uxNJJU78g80/KHa2ZfB1CgjLIGentwZtC8IMTjz6UTgWoC8sqiBQMZW3G6dEe1hO8AQDw5RyF/OfDhIYdY3KnVL9XDDM5jDg5MpfFwcmcC5oSHDJ+c9Wyes3xFGpERhZ1mJ9XAiJJt2kTz8sw6XWCLxgs6p4J9nLL/Ep7fpBMCh5vyHXrk1QNGtgQgDakHwD/jndpUle025P53Dk1WGJq/kwTE6POW76rmXngfIOpCjxijRYjrHRqRMMvmzYSe6UeRNPPFMfP2reOal54E7k9IqGzxuuY2SoKo33EsbMT/xEOGTn708FnxUi5ChecBKD1CY4G6ly9w8EqSWZ5vQXZ72ZFiP762S7VU879Mg2dirhSHL++OAgeNSMG02uBylNkJqesaAe1uCt2tzEQkJmjZWx/MnkhDZZDLicSufYZZJqXmSlOm3hTMc1NAe+DrhXEWBaqEQt+g5E07xNCk7T3K3hplJBA6TriTccy6QpCc3mcJyS+2IV2g6b0qzGnyul1l9IEalriaidS5w3kOr3TmYNjJUGc/cWeeitAkObxpZlsBPrmDNipxRAx65F3vPOfOFgolD9ApoIzsf5WQ+LYs1+MhhqktThPjHnQfQ/di+SDJx2XHOgSkp9EkROq4HM+JUW+FK0OyFOzcq7+PQ8XlzJjhsyKrUwz49P2DcqaKgcgVYdiwrEp860OlJWMvxHIx9lXhSYijshEh/0Taq/QwSNPApCgawTzlI9+DoLLs4IJxxog9tiZNauBxAZudEQ+iqAFZqYeQJz84LqoxsJEHzxHhH/emwPJXe4zSg6fmgVlMmBBoyy1SolJR7QAYOjellmvmxcKBnaQpE1m3K5ABUJCAC0f6GfUwXLO8owiy7wlJobdcDeHN6PlWgWpPLgsmVwkqDMScCDe/08Sjm7NMf47SJsuGO/ROX7JOiyKTtx7Q4jaEQIdlHV5DHL8SomF/0KQA4pgMQNvv2Bo4yGg74FxRLLYG1Y9DsR1goUBl5FtO5kJVSIH32UChxpw26hOBNi87r7RKFJ2GMBjNak51AnmYpANImo73MJ1l/yEkWY6R8wZpzBDNI5DN0ehSGicPoJoysHZemgr/vP4ctdAaRRIGBtZtls0/EAK1l5/QU6HjwIQ2xG9LADWtxx+KC3y4LegYmPqtoFsWdahvl4lIPhSEUSsDglkcN6okbzvhUJD2n0MROMP/dagL830JwUEsaJDFseKue8H1JkMR3KvstHKLQqiVemOLQVwrsTXvIZ40mEEXKM2ZryT2fB0IzlwIomDaSvdqYBbJomzXAoz8AtEJ7lM3kNpifM9/AJOBZwvHZD0mdsN/U+5Dn5+JuBVz+qckF82UwNDFO1gr1421Xmcu0CrFuNIsyF7iYcB+Nz3sSOqEgoY3aiMwsS9CkUz6D3HgCXfSp5ZiOg/GVGwEOXijrvysMHztMOJZaEIkTWIcmawoHTKxZ60vsBvNtKICU+49djolPCpQNVTUCn9zKfooGBmeRbYgaZNYu/XvtXEee3hGBmFijiIZJlekHJGr2gXITRolPwdzucMe3d0Qgyn+GKTeDNvhDUAMDBvXAhrPRU16A989dkIp3v5ovZTxwzwZof1GC9C1QGfBnZl8HMrsfQ1cFIM5L9teKDfcSZKcEc8hT62QIG2SluP97Ez3Cw+h5pTgseutrF/FVrt4IOfqNYr+1TPRMeJcX5cgoHJLszacAvMcIb9FVlUzfChLpcLEnPGI5aJYMHZc6j9GW992wSr0K2Pi8sTZayliYVWQUVPMrILr1zfN84Ib8cuWi+YHPh/J0lSUcFYWt7otBCVT8POHC2dn54BNdmvBRGziKnR+wEe6KQQk29d7jXmrm6rPJGn3tOGWSomlzMCHVUCDbgYlGdKAJ/sByrChh6NturqDYYYNSMKchoQJU8jMwDqyDmMbIlr3B397eIPg9ADdmQ2Uj+PeX5eL8MJS0UcoQlUeyig0GTLuPSs/gdYI2CwSqZgvLpBhB/LpXEqlQG6xO5NMUaxe3Q5pqwmzBxdGsYsMxyxzAd1KFOb3w4CulKaRRb23XBUja3gRvfxRiGgNneYM/PK/sKl8N+PYbxVshGRg9dtWZqlt/AeK5cKEZW3zwHLiKWeIUvahRU8q7ToatbRPWleeBBYqWjL8uslPsf1/49HF+UO75OD/lnHyM+HY3CyuGROabcONM8FVogmvMG7p9nNU4y0tApysZeidDzHNDiOXQKhM4pu/1zfIi0CY+ZuWGvWAIWHbuSm3Atrk/F8oDCHnzVPANC8OLyMIoTBU6IGUL+psGVIIzu4UgVh7z9Ym4i0Os0BAiNdus4r3Bxi0QWE/SWebp0HiT2VaZKLVb3nAngC38Td0eUslaPjOs6SIs+h/w3+wunQyUJ0sf3aYsGpo2ATfOXM4NC1DruGZ4GZIEy9ldIN/a2ekrC4v3Fu6iqMIynGZXKuzCR6S2FFLcQiZ544Z9c19q0/2jdLG5kBRVVL443UXBV4EnIX1tMJY1Tu4tRQOE/NtmKDyNXIcGqmYdR6HgdyRP6a6adnoC86W8x31l33BakCjr7VByNySiJtDs07hME/ZXGPvr7WHUBvHkrw8F2qTZoCumy7Yr2KNEYjLMqp+Kd5enLkAODH1HJjhsUzvLwXSxhP8zCz61i299FH6v2/uf1kBQhk1wl7V/pxfeyLDBf6M/mGNHbROnwhdM3clZHPMsEPPPloRp5FpD9ssc2yZkkNikIDXWtPm8F5Wx2t4DnlAnDzTguLAdg7h5DRx+xvqpoNSpHboHEt99khDvclOiXtIFUaXsQCv3XiSfNKfd9c1dsOmnzwGDLTbF2kSCpmJLX2uzhfRNCmyZbV1dFMqDGlhR/AUvck/zO7JwsScQOV927zJ8pD41nC4ubaJ1ZWh/Ux0jFGmfBXe9/vlmEmBny3y6QrOBreNTSvQaHwT3jUlAcs6ZDDwJG9LA6we2SUF+aGxLF8FUnzTcjZo5KaNIjGodxC36RCGphsdCWxvaekEXFqeNlac2Bkz+EtJAjUmCBDfZ2S7/2+0XhObAFn2DuG031gTXaJzRFS9DKZd9YdBt6nBTJGPF/Z3aHeu8IcDGJDZ7nQpsQbZfILZF6qTNzi2nF+6H1tee63kAAuHwkfml6Drpnj2UWepwT83Xa8fJqMaWDYPp6U8ZCpK9Ql86k1WZHTpQm7hYwG4Lsfoh7YVzqjoEPbE48LYu993m3vPaBFVEy+fc6GZRow4jTrTFUwphG6P+uEtp41PbdiGw09vmPERsV7jGCl3WMC9Do8pOSY4CmaM/w7uSJRqropzQzN84BeKnGF1srAmODWlSKvVSM7ZXyhAoKJpmnQeDMmJJNWHedv1sDIV2Ho+GPHhui/UOHCHcXBvqxrebn+1WkX0gu/bSghHqlTWkiIGcv1dfMytKSHrpes4pUJypCz5mAOrxUgqoRvQiy/XQujLIfxfcBT1FOji67vCBB7z7TXUM40CkSNtxz7ZoaEyDDGClHhc+fr8+vu4wvrDOMF5eWxf7hTxgT0gUt2nRdK0LbtltM8754UY0BElxCwwYGzBgu/n2ncixv7ZLjW0+W3uMWOpE++YXYp+t+SdeXGEfZfFtWYPHt4vaUCOXa8z6BEjbtc3V/oggxHQEvx3ho+B43gJSZtYBgbN4uzbef4LuyKROS5/QV1ezZ/ch4O+PghHrWguKMoL5+limmIqnuZ7S4FpmbU8ocxPULvp+2ngc3w4849qQpKGTtnXNhb0hU172aWuC2+jiKtDtmvle1wK77NYlUG0KDfjJeCkzOKWvON4ueafIE5GSN9EkLlSbqqT58TZhVwS13X7wYi/LT5T9tKZOWe4iqejldwrP5I/vY4tR86vM/zgoUS+ML6ZYnXbPTmtbi+LbSG0CJ4OuersihqNtwq4FnMU7z1y9J1buJ2i2H8e3fmYskKtddM8Zeoe/c43pl5ritlUlSfUzTEhylujusy0jzhuo2FoSxLSyWrYeh3+eZnddO+d55BosWoyNkzTeMBZmFVeYfsQeBiiH6nD4+0N3iDqi3ccbTGfsIaW4jdMZQYGipEp4ldomYMta+kf1MmMt/aEtPGOVkwSzisZeZUtfC/K0T8ccey+O61CKQ995nRafnTUF+khPeL2/E12cc+U626zsCzcjM3eXQqVhT/bTMXCeJRV+FTD2pmv397a3h7aRa2Vsov6Spz1nSX9R/LGMtvc/rLC+oUBdbyfV2v522Ll4cXZ24QddqCjTWQSu5u9mFA64p5BjJuyypLRmU+P4IfvhFU+h/wkBPIs3EzbYstRd5AUZaH4vfR5WiL3z3f3bwa3uKiKjvLg2LMKYyzuvUMH3DNvrHiPx7Ta7SEWvrq7Xdvy9mEQs8+soc4zAvOl6XWysklJ0A/RSIWMvQWXNyg/BAJ/e5CSOt9+5qSRia62F0d+kbXFCoOsCTLPTUOGClrT5bn6Przr1VPr3Iar6woNf4hqvyyp7A5VR5rf7sQs/mSqzJlIeZ9NGF7tFREREREREREREREREREREREREREREREREREREREREREREREREREQQ/gM6WHDnDVYEcgAAAABJRU5ErkJggg==" alt=""><span>X</span></a>
+      <a id="sline" target="_blank" rel="noopener" aria-label="LINEでシェア"><span class="ico ln">LINE</span><span>LINE</span></a>
+      <a id="sfb" target="_blank" rel="noopener" aria-label="Facebookでシェア"><span class="ico fbk">f</span><span>Facebook</span></a>
+      <a id="sth" target="_blank" rel="noopener" aria-label="Threadsでシェア"><span class="ico th">@</span><span>Threads</span></a>
+      <a id="sbs" target="_blank" rel="noopener" aria-label="Blueskyでシェア"><span class="ico bs">🦋</span><span>Bluesky</span></a>
+    </div>
+    <div class="shu"><input id="shurl" type="text" readonly aria-label="このサイトのURL"><button id="scopy" type="button">URLをコピー</button></div>
+    <button class="shn" id="snative" type="button" hidden>その他のアプリで共有</button>
+  </div>
+</div>
 <a class="fab" id="fab" href="https://www.youtube.com/@iroiroch-h5?sub_confirmation=1" target="_blank" rel="noopener" aria-label="チャンネル登録"><img src="https://t4.ftcdn.net/jpg/05/80/32/27/240_F_580322746_hKevbImEK1Kg0JCsOeQhMqDEWfHhfTxj.jpg" alt="チャンネル登録" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('fb');this.replaceWith('▶ SUBSCRIBE')"></a>
 <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 <script async src="https://www.tiktok.com/embed.js"></script>
@@ -581,7 +613,7 @@ var SLIDES = [
   function fb(img,s){img.addEventListener("error",function(){if(s.fb&&img.src!==s.fb)img.src=s.fb})}
 
   // ギャラリー
-  var stage=$("stage"),thumbs=$("thumbs"),idx=0,timer=null,sl=[],tb=[];
+  var stage=$("stage"),thumbs=$("thumbs"),pg=$("pg"),idx=0,last=Date.now(),timer=null,sl=[],tb=[];
   SLIDES.forEach(function(s,i){
     var d=document.createElement("div");d.className="slide";
     var im=document.createElement("img");fb(im,s);im.src=s.src;im.alt=s.cap;d.appendChild(im);
@@ -591,18 +623,29 @@ var SLIDES = [
     b.onclick=function(){show(i);restart()};thumbs.appendChild(b);tb.push(b);
   });
   function show(n){
-    idx=(n+sl.length)%sl.length;
+    idx=(n+sl.length)%sl.length;last=Date.now();
     sl.forEach(function(s,i){s.classList.toggle("on",i===idx)});
     tb.forEach(function(b,i){b.classList.toggle("on",i===idx)});
     $("cap").textContent=SLIDES[idx].cap;
     $("cnt").textContent=("0"+(idx+1)).slice(-2)+" / "+("0"+SLIDES.length).slice(-2);
-    var t=tb[idx];thumbs.scrollTo({left:t.offsetLeft-thumbs.clientWidth/2+t.clientWidth/2,behavior:"smooth"});
+    try{var t=tb[idx];thumbs.scrollTo({left:t.offsetLeft-thumbs.clientWidth/2+t.clientWidth/2,behavior:"smooth"})}catch(e){}
   }
-  function restart(){clearInterval(timer);timer=setInterval(function(){show(idx+1)},4500)}
+  var SLIDE_MS=2800; // 自動で切り替わる間隔(ミリ秒)。小さいほど速い
+  function restart(){
+    clearTimeout(timer);
+    timer=setTimeout(function(){try{show(idx+1)}finally{restart()}},SLIDE_MS);
+    if(pg){pg.style.animation="none";void pg.offsetWidth;pg.style.animation="pgr "+SLIDE_MS+"ms linear forwards"}
+  }
   $("prev").onclick=function(){show(idx-1);restart()};
   $("next").onclick=function(){show(idx+1);restart()};
-  stage.onmouseenter=function(){clearInterval(timer)};
-  stage.onmouseleave=restart;
+  // マウスを乗せてもタップしても止まらない。タブに戻った時・万一止まった時も自動で再開
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)restart()});
+  window.addEventListener("pageshow",restart);
+  setInterval(function(){if(!document.hidden&&Date.now()-last>SLIDE_MS+1500){try{show(idx+1)}finally{restart()}}},1000);
+  // スワイプで前後に切り替え
+  var tx=0,ty=0;
+  stage.addEventListener("touchstart",function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+  stage.addEventListener("touchend",function(e){var t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5){show(idx+(dx<0?1:-1));restart()}},{passive:true});
   show(0);restart();
   document.querySelectorAll("[data-slide]").forEach(function(a){a.addEventListener("click",function(){show(+a.dataset.slide);restart()})});
 
@@ -618,29 +661,42 @@ var SLIDES = [
     var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){count(e.target);co.unobserve(e.target)}})},{threshold:.6,rootMargin:"0px 0px -15% 0px"});
     cnts.forEach(function(el){el.textContent="0";co.observe(el)});
   }
-  // シェアボタン：対応環境は端末の共有メニュー、非対応のPC等は専用の共有メニュー
-  var sh=$("share"),sm=$("sharemenu");
-  function shareUrl(){return location.href.split("#")[0]}
-  function closeMenu(){sm.hidden=true}
-  sh.onclick=function(e){
-    e.stopPropagation();
-    var u=shareUrl(),d={title:document.title,url:u};
-    if(navigator.share){navigator.share(d).catch(function(){});return}
-    var eu=encodeURIComponent(u),et=encodeURIComponent(document.title);
-    $("sx").href="https://twitter.com/intent/tweet?text="+et+"&url="+eu;
-    $("sline").href="https://social-plugins.line.me/lineit/share?url="+eu;
-    $("sfb").href="https://www.facebook.com/sharer/sharer.php?u="+eu;
-    sm.hidden=!sm.hidden;
-  };
+  // シェア：ボタンを押すとシェア画面（X・LINE・Facebook・Threads・Bluesky・URLコピー）を表示
+  var SITE_URL=""; // 公開しているホームページのURLを固定したい時はここに入れる（空なら今開いているページのURL）
+  var S_TEXT="色々ちゃんねるの公式ホームページはこちら",S_TAGS=["iroiroch","色々ちゃんねる"];
+  var shm=$("shm"),shLast=null;
+  function shareUrl(){return SITE_URL||location.href.split("#")[0]}
+  function shareFull(){return S_TEXT+" "+S_TAGS.map(function(t){return "#"+t}).join(" ")}
+  function openShare(){
+    var u=shareUrl(),eu=encodeURIComponent(u),full=shareFull();
+    $("sx").href="https://x.com/intent/post?text="+encodeURIComponent(S_TEXT)+"&url="+eu+"&hashtags="+encodeURIComponent(S_TAGS.join(","));
+    $("sline").href="https://social-plugins.line.me/lineit/share?url="+eu+"&text="+encodeURIComponent(full);
+    $("sfb").href="https://www.facebook.com/sharer/sharer.php?u="+eu+"&hashtag="+encodeURIComponent("#"+S_TAGS[0]);
+    $("sth").href="https://www.threads.net/intent/post?text="+encodeURIComponent(full+"\n"+u);
+    $("sbs").href="https://bsky.app/intent/compose?text="+encodeURIComponent(full+"\n"+u);
+    $("shurl").value=u;
+    $("scopy").textContent="URLをコピー";$("scopy").classList.remove("ok");
+    $("snative").hidden=!navigator.share;
+    shLast=document.activeElement;shm.hidden=false;document.body.classList.add("shopen");$("shclose").focus();
+  }
+  function closeShare(){shm.hidden=true;document.body.classList.remove("shopen");if(shLast&&shLast.focus)shLast.focus()}
+  $("share").onclick=openShare;
+  $("shclose").onclick=closeShare;
+  shm.addEventListener("click",function(e){
+    if(e.target===shm){closeShare();return}
+    var a=e.target.closest&&e.target.closest("a");if(a)setTimeout(closeShare,150);
+  });
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!shm.hidden)closeShare()});
   $("scopy").onclick=function(){
-    var b=this,u=shareUrl();
-    function ok(){b.textContent="コピーしました！";setTimeout(function(){b.textContent="URLをコピー";closeMenu()},1200)}
-    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,function(){prompt("URLをコピーしてね",u)});
-    else prompt("URLをコピーしてね",u);
+    var btn=this,u=shareUrl(),inp=$("shurl");
+    function done(ok){
+      if(ok){btn.textContent="コピーしました！✓";btn.classList.add("ok");setTimeout(function(){btn.textContent="URLをコピー";btn.classList.remove("ok")},2000)}
+      else{inp.focus();inp.select();btn.textContent="URLを選択しました"}
+    }
+    function fallback(){var ok=false;try{inp.focus();inp.select();inp.setSelectionRange(0,u.length);ok=document.execCommand("copy")}catch(e){}done(ok)}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(function(){done(true)},fallback);else fallback();
   };
-  sm.addEventListener("click",function(e){if(e.target.tagName==="A")setTimeout(closeMenu,100)});
-  document.addEventListener("click",function(e){if(!sm.hidden&&!sm.contains(e.target))closeMenu()});
-  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMenu()});
+  $("snative").onclick=function(){if(navigator.share)navigator.share({title:document.title,text:shareFull(),url:shareUrl()}).catch(function(){})};
 
   // ドロワー
   var b=document.body;
