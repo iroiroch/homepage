@@ -402,8 +402,8 @@ footer .logo img{height:76px}
 .faq details{background:var(--card);border:1px solid var(--line);margin-bottom:12px}
 .faq summary{cursor:pointer;padding:16px 20px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";color:var(--red);font-size:24px;line-height:1;flex:none}
-.faq details[open] summary::after{content:"\2212"}
+.faq summary::after{content:"";flex:none;width:18px;height:18px;background:linear-gradient(var(--red),var(--red)) center/100% 2px no-repeat,linear-gradient(var(--red),var(--red)) center/2px 100% no-repeat;transition:transform .35s ease,background-size .35s ease}
+.faq details[open] summary::after{transform:rotate(180deg);background-size:100% 2px,2px 0}
 .faq details[open]{border-color:var(--red)}
 .faq details p{margin:0;padding:0 20px 18px;color:var(--mut)}
 .faq a{color:var(--red)}
@@ -412,7 +412,7 @@ footer .logo img{height:76px}
 .fab:hover{filter:brightness(1.08)}
 .fab.fb{background:var(--red);padding:12px 20px;border-radius:999px;line-height:inherit;box-shadow:0 8px 22px #0007}
 .share{position:relative;text-align:center;margin-top:30px}
-.sharebtn{border:0;background:var(--red);color:#fff;font:700 14px inherit;font-family:inherit;padding:14px 30px;cursor:pointer;transition:background .2s}
+.sharebtn{border:0;border-radius:999px;background:var(--red);color:#fff;font:700 14px inherit;font-family:inherit;padding:14px 30px;cursor:pointer;transition:background .2s}
 .sharebtn:hover{background:#b8000e}
 
 .pg{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--red);z-index:3;pointer-events:none}
@@ -513,7 +513,7 @@ body.lbopen{overflow:hidden}
   .js.intro .cbanner img{animation:bnZoom 3s cubic-bezier(.2,.7,.2,1) var(--id,0s) backwards}
   .live::before{animation:livep 1.6s ease-in-out infinite}
 }
-@media (prefers-reduced-motion:reduce){.faq details[open] p{animation:none}}
+@media (prefers-reduced-motion:reduce){.faq details[open] p{animation:none}.faq summary::after{transition:none}}
 </style>
 </head>
 <body>
@@ -539,13 +539,16 @@ body.lbopen{overflow:hidden}
   function unlock(){if(ul)return;ul=true;
     window.removeEventListener("wheel",stop);window.removeEventListener("touchmove",stop);window.removeEventListener("keydown",stopKey);
     root.classList.remove("ldon")}
-  // 読み込み画面が消えて、最初の表示アニメーションが全部終わってからスクロールできるようにする（最長2.5秒で必ず解除）
+  // 読み込み画面が消えて、ページ上部の黄色い流れる帯（.mq）が出始めたらスクロールできるようにする（最長5秒で必ず解除）
   function settle(){
-    var an=[];
-    try{an=document.getAnimations().filter(function(a){var m=a.effect&&a.effect.getComputedTiming?a.effect.getComputedTiming():null;return m&&isFinite(m.endTime)&&a.playState!=="finished"&&a.animationName!=="pgr"})}catch(e){}
+    var an=[],mqEl=document.querySelector(".mq");
+    try{an=(mqEl&&mqEl.getAnimations?mqEl.getAnimations():[]).filter(function(a){var m=a.effect&&a.effect.getComputedTiming?a.effect.getComputedTiming():null;return m&&isFinite(m.endTime)&&a.playState!=="finished"})}catch(e){}
     if(!an.length){unlock();return}
-    Promise.all(an.map(function(a){return a.finished.catch(function(){})})).then(unlock);
-    setTimeout(unlock,2500);
+    (function chk(){
+      var started=an.some(function(a){return a.playState==="finished"||(a.currentTime!==null&&a.currentTime>=a.effect.getComputedTiming().delay)});
+      if(started)unlock();else requestAnimationFrame(chk);
+    })();
+    setTimeout(unlock,5000);
   }
   function hide(){if(done)return;done=true;setTimeout(function(){
     l.classList.add("off");setTimeout(function(){root.classList.add("intro")},300);setTimeout(function(){l.remove()},500);
@@ -924,7 +927,11 @@ var SLIDES = [
   var lbw=lb.querySelector(".lbw"),lbAnim=null,lbDir=null,lbMotion=!(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches);
   function lbIn(dir){ // 新しい写真：進む方向から滑り込みながらフェードイン
     if(lbAnim){lbAnim.cancel();lbAnim=null}
-    if(!dir||!lbMotion||!lbimg.animate)return;
+    if(!lbMotion||!lbimg.animate)return;
+    if(!dir){ // 拡大して開いた時：少し大きい状態からズームアウト
+      lbAnim=lbimg.animate([{opacity:0,transform:"scale(1.1)"},{opacity:1,transform:"scale(1)"}],{duration:600,easing:"cubic-bezier(.2,.7,.2,1)"});
+      return;
+    }
     lbAnim=lbimg.animate([{opacity:0,transform:"translateX("+(56*dir)+"px)"},{opacity:1,transform:"none"}],{duration:420,easing:"cubic-bezier(.2,.7,.2,1)"});
   }
   function lbRender(dir){
