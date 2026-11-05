@@ -539,13 +539,13 @@ body.lbopen{overflow:hidden}
   function unlock(){if(ul)return;ul=true;
     window.removeEventListener("wheel",stop);window.removeEventListener("touchmove",stop);window.removeEventListener("keydown",stopKey);
     root.classList.remove("ldon")}
-  // 読み込み画面が消えて、最初の表示アニメーションが全部終わってからスクロールできるようにする（最長4秒で必ず解除）
+  // 読み込み画面が消えて、最初の表示アニメーションが全部終わってからスクロールできるようにする（最長2.5秒で必ず解除）
   function settle(){
     var an=[];
     try{an=document.getAnimations().filter(function(a){var m=a.effect&&a.effect.getComputedTiming?a.effect.getComputedTiming():null;return m&&isFinite(m.endTime)&&a.playState!=="finished"&&a.animationName!=="pgr"})}catch(e){}
     if(!an.length){unlock();return}
     Promise.all(an.map(function(a){return a.finished.catch(function(){})})).then(unlock);
-    setTimeout(unlock,4000);
+    setTimeout(unlock,2500);
   }
   function hide(){if(done)return;done=true;setTimeout(function(){
     l.classList.add("off");setTimeout(function(){root.classList.add("intro")},300);setTimeout(function(){l.remove()},500);
