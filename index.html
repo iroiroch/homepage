@@ -558,6 +558,31 @@ body.lbopen{overflow:hidden}
   .fold-in>.feed.lim.all{row-gap:28px}
   .feed.lim:not(.all)>.vcard:nth-child(n+2){height:0;min-height:0;border-width:0;box-shadow:none;visibility:hidden;pointer-events:none}
 }
+/* ===== INFO（詳しい情報）：見てほしい場所なので目立たせる ===== */
+.info{background:linear-gradient(180deg,#fff6c9,#fff 75%);border-top:5px solid var(--yellow)}
+.mst{display:inline-block;margin-left:12px;vertical-align:middle;background:var(--red);color:var(--yellow);font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;font-size:12px;font-weight:900;letter-spacing:.08em;line-height:1.6;padding:2px 12px;border-radius:999px;text-transform:none}
+.inote{margin:12px 0 0;font-size:14px;font-weight:700;line-height:1.7;color:var(--ink)}
+.info .fbtn[aria-expanded="false"]{position:relative;background:var(--red);color:#fff}
+.info .fbtn[aria-expanded="false"]:hover{background:#b8000e;border-color:#b8000e}
+.pill.yl{background:var(--yellow);color:#111}
+.pill.yl:hover{background:#e6bd00}
+.hnav a.hi,.fnav a.hi{color:var(--yellow)}
+.tabs a.hi{color:var(--red)}
+.drawer a.m.hi{border-left-color:var(--yellow);background:#1c1c1c}
+.drawer a.m.hi.act{background:var(--red)}
+.nb{display:inline-block;margin-left:8px;background:var(--yellow);color:#111;font-size:10px;font-weight:900;letter-spacing:.05em;line-height:1.6;padding:0 8px;border-radius:999px;vertical-align:middle}
+@media (max-width:860px){
+  .info .sh{padding:20px 18px 18px;background:#fff;border:2px solid var(--red);box-shadow:0 10px 26px #e6001226}
+  .info .sh i{display:none}
+  .info .fhr{flex-wrap:wrap;gap:12px}
+  .info .fhr .fbtn{width:100%;justify-content:center;padding:14px 20px;font-size:16px}
+}
+@keyframes infoRing{from{transform:scale(1);opacity:.7}to{transform:scale(1.1,1.4);opacity:0}}
+@keyframes mstHop{0%,70%,100%{transform:none}78%{transform:translateY(-4px)}86%{transform:none}92%{transform:translateY(-2px)}}
+@media (prefers-reduced-motion:no-preference){
+  .info .fbtn[aria-expanded="false"]::before{content:"";position:absolute;inset:-2px;border:2px solid var(--red);border-radius:999px;pointer-events:none;animation:infoRing 1.8s ease-out infinite}
+  .mst{animation:mstHop 2.6s ease-in-out infinite}
+}
 </style>
 </head>
 <body>
@@ -596,7 +621,7 @@ body.lbopen{overflow:hidden}
   <button class="mbtn" id="mbtn" aria-label="メニュー" aria-expanded="false" aria-controls="drawer">☰</button>
   <a class="logo en" href="#profile"><img src="https://raw.githubusercontent.com/ishiinopasokon8610-afk/image-list/main/images/Gemini_Generated_Image_qy03ngqy03ngqy03.jpg" alt="iroiroch" onerror="this.outerHTML='<b>iroiro</b>ch'"></a>
   <nav class="hnav" id="hnav">
-    <a href="#profile">PROFILE</a><a href="#stats">STATS</a><a href="#videos">VIDEOS</a><a href="#sns">SNS</a><a href="#topics">TOPICS</a><a href="#gallery">GALLERY</a><a href="#links">LINKS</a><a href="#contact">CONTACT</a>
+    <a href="#profile">PROFILE</a><a href="#stats">STATS</a><a href="#videos">VIDEOS</a><a href="#sns">SNS</a><a href="#topics">TOPICS</a><a href="#gallery">GALLERY</a><a href="#links">LINKS</a><a class="hi" href="#info">INFO</a><a href="#contact">CONTACT</a>
   </nav>
   <a class="hbtn" href="https://www.youtube.com/@iroiroch-h5" target="_blank" rel="me noopener" aria-label="YouTube"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXpPG8M_4uzJypeiuiAZJdWitHXCWcpyGdFzWzKv1HpA&amp;s=10" alt="色々ちゃんねる YouTube" referrerpolicy="no-referrer" onerror="this.replaceWith('▶ YouTube')"></a>
 </header>
@@ -614,6 +639,7 @@ body.lbopen{overflow:hidden}
   <a class="m" href="#gallery" data-slide="8">新しいホームページ<small class="en">NEW</small></a>
   <a class="m" href="#links">リンク集<small class="en">LINKS</small></a>
   <a class="m" href="#faq">よくある質問<small class="en">FAQ</small></a>
+  <a class="m hi" href="#info"><span>詳しい情報<b class="nb">見てね</b></span><small class="en">INFO</small></a>
   <a class="m" href="#contact">お問い合わせ<small class="en">CONTACT</small></a>
 </aside>
 <div class="scrim" id="scrim"></div>
@@ -633,6 +659,7 @@ body.lbopen{overflow:hidden}
           </div>
           <div class="cact">
             <a class="pill" href="https://www.youtube.com/@iroiroch-h5?sub_confirmation=1" target="_blank" rel="noopener">▶ チャンネル登録</a>
+            <a class="pill yl" href="#info">📌 詳しい情報を見る</a>
           </div>
           <div class="chips">
             <a href="https://www.youtube.com/@iroiroch-h5" target="_blank" rel="me noopener">YouTube</a>
@@ -644,7 +671,7 @@ body.lbopen{overflow:hidden}
         </div>
       </div>
       <nav class="tabs en" id="tabs">
-        <a href="#profile" class="act">HOME</a><a href="#highlights">HIGHLIGHTS</a><a href="#stats">STATS</a><a href="#videos">VIDEOS</a><a href="#sns">SNS</a><a href="#topics">TOPICS</a><a href="#gallery">GALLERY</a><a href="#links">LINKS</a><a href="#faq">FAQ</a><a href="#contact">CONTACT</a>
+        <a href="#profile" class="act">HOME</a><a href="#highlights">HIGHLIGHTS</a><a href="#stats">STATS</a><a href="#videos">VIDEOS</a><a href="#sns">SNS</a><a href="#topics">TOPICS</a><a href="#gallery">GALLERY</a><a href="#links">LINKS</a><a href="#faq">FAQ</a><a class="hi" href="#info">INFO</a><a href="#contact">CONTACT</a>
       </nav>
     </div>
     <div class="mq" id="mq" aria-hidden="true"><div><span>▶ SUBSCRIBE</span><span>チャンネル登録よろしくお願いします！</span><span>高評価もね 👍</span><span>▶ iroiroch</span><span>🔥</span></div></div>
@@ -690,19 +717,26 @@ body.lbopen{overflow:hidden}
       <div class="sh rv fh"><i></i><div class="fhr"><h2 class="en">Latest<small>最新動画・最近の投稿</small></h2><button class="fbtn" type="button" aria-expanded="true" aria-controls="fold-videos"><span>たたむ</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button></div></div>
       <div class="fold" id="fold-videos"><div class="fold-in"><div class="feed" id="feed-latest" data-stagger>
         <div class="vcard rv">
-          <div class="vh"><span class="new en">YouTube</span>踏み潰したカエルの飛び出た目玉が🐸</div>
-          <div class="emb"><iframe class="yt v" src="https://www.youtube.com/embed/sMaN_LwW0S4" title="踏み潰したカエルの飛び出た目玉が🐸 #人気になりたい #すごい" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
-          <a class="more" href="https://www.youtube.com/watch?v=sMaN_LwW0S4" target="_blank" rel="noopener">YouTubeで見る ›</a>
-        </div>
-        <div class="vcard rv">
-          <div class="vh"><span class="new en">YouTube</span>㊗️170万回再生!!花火🎆</div>
-          <div class="emb"><iframe class="yt v" src="https://www.youtube.com/embed/OaqzDNZJUoo" title="㊗️170万回再生!!花火🎆 #バズれ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
-          <a class="more" href="https://www.youtube.com/watch?v=OaqzDNZJUoo" target="_blank" rel="noopener">YouTubeで見る ›</a>
+          <div class="vh"><span class="new en">SHORTS</span>最新ショート動画（自動更新）</div>
+          <div class="emb">
+            <!-- 最新ショート動画：チャンネルの最新の投稿から縦型(ショート)を自動で探して表示します（下のscriptで切り替え） -->
+            <div style="max-width:350px;width:100%;margin:0 auto">
+              <div style="position:relative;width:100%;padding-top:177.77%;background:#000;border-radius:12px;overflow:hidden">
+                <iframe id="youtube-shorts-player" src="about:blank" title="色々ちゃんねる 最新ショート動画" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+          <a class="more" href="https://www.youtube.com/@iroiroch-h5/shorts" target="_blank" rel="noopener">YouTubeでショートをもっと見る ›</a>
         </div>
         <div class="vcard rv">
           <div class="vh"><span class="new en">YouTube</span>バナナ</div>
           <div class="emb"><iframe class="yt v" src="https://www.youtube.com/embed/mUtm6iz_Bdo" title="バナナ #人気になりたい #2倍速 #ドパガキ #速い #上手いと思ったら高評価 #てんぷれお借りしました" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
           <a class="more" href="https://www.youtube.com/watch?v=mUtm6iz_Bdo" target="_blank" rel="noopener">YouTubeで見る ›</a>
+        </div>
+        <div class="vcard rv">
+          <div class="vh"><span class="new en">YouTube</span>㊗️170万回再生!!花火🎆</div>
+          <div class="emb"><iframe class="yt v" src="https://www.youtube.com/embed/OaqzDNZJUoo" title="㊗️170万回再生!!花火🎆 #バズれ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
+          <a class="more" href="https://www.youtube.com/watch?v=OaqzDNZJUoo" target="_blank" rel="noopener">YouTubeで見る ›</a>
         </div>
         <div class="vcard rv">
           <div class="vh"><span class="new en">NEW</span>TikTok 最近の動画</div>
@@ -800,6 +834,16 @@ body.lbopen{overflow:hidden}
     </div>
   </section>
 
+  <section class="s info" id="info" aria-label="詳しい情報">
+    <div class="wrap">
+      <div class="sh rv fh fc"><i></i><div class="fhr"><h2 class="en">Info<small>詳しい情報</small><span class="mst">見てね！</span></h2><button class="fbtn" type="button" aria-expanded="false" aria-controls="fold-doc"><span>ひらく</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button></div><p class="inote">色々ちゃんねるの詳しい情報をまとめています。ぜひ見てください！</p></div>
+      <div class="fold closed" id="fold-doc"><div class="fold-in" inert><div class="feed"><div class="vcard">
+        <div class="vh"><span class="new en">DOC</span>色々ちゃんねる 詳しい情報</div>
+        <div class="emb"><iframe src="about:blank" data-fsrc="https://docs.google.com/document/d/e/2PACX-1vSXUqL1tVur8qqpMmgJiF9kyrfkjIX2JFLlb-BzI_1SJxVa4B-TSo_XU4VRSAZdhSfg3m-XXkIO8FbF/pub?embedded=true" title="色々ちゃんねる 詳しい情報（Googleドキュメント）" style="width:100%;height:min(72vh,560px);border:0;background:#fff" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+      </div></div></div></div>
+    </div>
+  </section>
+
   <section class="cta" id="contact">
     <div class="panel a rv">
       <h3>視聴者の皆様へ</h3>
@@ -821,7 +865,7 @@ body.lbopen{overflow:hidden}
   <div class="wrap">
     <div class="fgrid">
       <a class="logo en" href="#profile"><img src="https://raw.githubusercontent.com/ishiinopasokon8610-afk/image-list/main/images/Gemini_Generated_Image_qy03ngqy03ngqy03.jpg" alt="iroiroch" onerror="this.outerHTML='<b>iroiro</b>ch'"></a>
-      <nav class="fnav en"><a href="#profile">PROFILE</a><a href="#highlights">HIGHLIGHTS</a><a href="#stats">STATS</a><a href="#videos">VIDEOS</a><a href="#sns">SNS</a><a href="#topics">TOPICS</a><a href="#gallery">GALLERY</a><a href="#links">LINKS</a><a href="#faq">FAQ</a><a href="#contact">CONTACT</a></nav>
+      <nav class="fnav en"><a href="#profile">PROFILE</a><a href="#highlights">HIGHLIGHTS</a><a href="#stats">STATS</a><a href="#videos">VIDEOS</a><a href="#sns">SNS</a><a href="#topics">TOPICS</a><a href="#gallery">GALLERY</a><a href="#links">LINKS</a><a href="#faq">FAQ</a><a class="hi" href="#info">INFO</a><a href="#contact">CONTACT</a></nav>
     </div>
     <div class="copy">© 2026 色々ちゃんねる. All rights reserved. / Counters by TubeScope</div>
   </div>
@@ -1143,10 +1187,36 @@ var SLIDES = [
   if(phoneMq.addEventListener)phoneMq.addEventListener("change",applyFrames);
   applyFrames();
   // メニューなどから「VIDEOS」「SNS」へ移動した時は、自動でひらく
-  var FOLD_OF={"#videos":"fold-videos","#sns":"fold-sns"};
+  var FOLD_OF={"#videos":"fold-videos","#sns":"fold-sns","#info":"fold-doc"};
   function openByHash(h){var b=folds[FOLD_OF[h]];if(b&&b.getAttribute("aria-expanded")!=="true")setFold(b,true)}
-  document.querySelectorAll('a[href="#videos"],a[href="#sns"]').forEach(function(a){a.addEventListener("click",function(){openByHash(a.getAttribute("href"))})});
+  document.querySelectorAll('a[href="#videos"],a[href="#sns"],a[href="#info"]').forEach(function(a){a.addEventListener("click",function(){openByHash(a.getAttribute("href"))})});
   openByHash(location.hash);
+  // INFO：パソコンでは最初からひらいておく（スマホはとじたままにして、目立つ見た目で見てもらう）。見る人が自分で開け閉めしたらそちらを優先
+  (function(){
+    var btn=folds["fold-doc"],touched=false;if(!btn)return;
+    btn.addEventListener("click",function(){touched=true});
+    function auto(){if(!touched&&!phoneMq.matches&&btn.getAttribute("aria-expanded")!=="true")setFold(btn,true)}
+    auto();
+    if(phoneMq.addEventListener)phoneMq.addEventListener("change",auto);
+  })();
+  // 最新ショート動画：チャンネルの最新の投稿10本から「縦型(ショート)」を探して表示。見つからない・通信に失敗した時は、これまでのショート動画を表示
+  (function(){
+    var fr=$("youtube-shorts-player");if(!fr)return;
+    var API_KEY="AIzaSyBknI7Y2Ilh5o-jsmfqyYuvIkt4byaVaOQ",CHANNEL_ID="UClRd5CpraQVtaOx4LaBoEbQ",FALLBACK="sMaN_LwW0S4",done=false;
+    function play(id){
+      if(done)return;done=true;
+      fr.setAttribute("data-fsrc","https://www.youtube.com/embed/"+id+"?rel=0&playsinline=1");
+      applyFrames(); // 見えている時だけ読み込む（たたまれている時・スマホで隠れている時は、ひらいた時に読み込む）
+    }
+    var api="https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=UU"+CHANNEL_ID.slice(2)+"&key="+API_KEY; // アップロード一覧（新しい順）。search より使用量が100分の1
+    fetch(api).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+      var ids=(d.items||[]).map(function(it){return it.snippet&&it.snippet.resourceId&&it.snippet.resourceId.videoId}).filter(Boolean);
+      return Promise.all(ids.map(function(id){ // 縦長（高さが幅より大きい）＝ショート動画
+        return fetch("https://noembed.com/embed?url="+encodeURIComponent("https://www.youtube.com/watch?v="+id))
+          .then(function(r){return r.json()}).then(function(o){return o&&o.height>o.width?id:null},function(){return null});
+      }));
+    }).then(function(r){play(r.filter(Boolean)[0]||FALLBACK)}).catch(function(){play(FALLBACK)});
+  })();
 
   // X（旧Twitter）タイムライン：表示用の部品(widgets.js)が動かず「Posts by …」のリンクだけになった時は、部品を読み込み直して作り直す
   // 成功＝リンクが iframe に置き換わったか。作り直しは最大3回、それでも出なければ見切り（リンクはそのまま残る）。TikTokはその後に読み込む
