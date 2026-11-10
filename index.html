@@ -549,6 +549,16 @@ body.lbopen{overflow:hidden}
 /* お知らせ：リンクなしの項目 */
 .tp li .tpn{display:flex;gap:30px;padding:24px 40px 28px 0}
 @media (max-width:860px){.tp li .tpn{gap:16px}}
+/* お知らせ(TOPICS)：スマホは日付を上に出して、文章を横いっぱいに使う（横並びだと文章の幅が細くなって読みにくいため） */
+@media (max-width:600px){
+  .tp li a,.tp li .tpn{flex-direction:column;gap:6px;padding:18px 0 24px}
+  .tp li a:hover{padding-left:0}
+  .tp .d{width:auto;padding-top:0;font-size:12px}
+  .tp .d br{display:none}
+  .tp li a>div,.tp li .tpn>div{min-width:0}
+  .tp h3{font-size:16px;line-height:1.5;word-break:auto-phrase;overflow-wrap:anywhere}
+  .tp p{margin-top:4px;font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+}
 /* スマホ：Latestは最初の1件だけ見せて、残りは「もっと見る」で出す */
 .more-box{display:none}
 @media (max-width:860px){
@@ -576,6 +586,11 @@ body.lbopen{overflow:hidden}
   .info .sh i{display:none}
   .info .fhr{flex-wrap:wrap;gap:12px}
   .info .fhr .fbtn{width:100%;justify-content:center;padding:14px 20px;font-size:16px}
+}
+/* INFOのドキュメント：スマホは枠の余白を減らし、高さも控えめにして縦に長くなりすぎないようにする（中は枠の中でスクロール、全文は別タブへ） */
+@media (max-width:600px){
+  #fold-doc .emb{padding:6px;min-height:0}
+  #fold-doc .emb iframe{height:min(55vh,440px)!important}
 }
 @keyframes infoRing{from{transform:scale(1);opacity:.7}to{transform:scale(1.1,1.4);opacity:0}}
 @keyframes mstHop{0%,70%,100%{transform:none}78%{transform:translateY(-4px)}86%{transform:none}92%{transform:translateY(-2px)}}
@@ -719,7 +734,7 @@ body.lbopen{overflow:hidden}
         <div class="vcard rv">
           <div class="vh"><span class="new en">SHORTS</span>最新ショート動画（自動更新）</div>
           <div class="emb">
-            <!-- 最新ショート動画：チャンネルの最新の投稿から縦型(ショート)を自動で探して表示します（下のscriptで切り替え） -->
+            <!-- 最新ショート動画（縦型 9:16・角丸）：チャンネルの最新の投稿から縦型(ショート)を自動で探して表示します（下のscriptで切り替え） -->
             <div style="max-width:350px;width:100%;margin:0 auto">
               <div style="position:relative;width:100%;padding-top:177.77%;background:#000;border-radius:12px;overflow:hidden">
                 <iframe id="youtube-shorts-player" src="about:blank" title="色々ちゃんねる 最新ショート動画" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -840,6 +855,7 @@ body.lbopen{overflow:hidden}
       <div class="fold closed" id="fold-doc"><div class="fold-in" inert><div class="feed"><div class="vcard">
         <div class="vh"><span class="new en">DOC</span>色々ちゃんねる 詳しい情報</div>
         <div class="emb"><iframe src="about:blank" data-fsrc="https://docs.google.com/document/d/e/2PACX-1vSXUqL1tVur8qqpMmgJiF9kyrfkjIX2JFLlb-BzI_1SJxVa4B-TSo_XU4VRSAZdhSfg3m-XXkIO8FbF/pub?embedded=true" title="色々ちゃんねる 詳しい情報（Googleドキュメント）" style="width:100%;height:min(72vh,560px);border:0;background:#fff" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+        <a class="more" href="https://docs.google.com/document/d/e/2PACX-1vSXUqL1tVur8qqpMmgJiF9kyrfkjIX2JFLlb-BzI_1SJxVa4B-TSo_XU4VRSAZdhSfg3m-XXkIO8FbF/pub" target="_blank" rel="noopener">全文を別タブで開く ›</a>
       </div></div></div></div>
     </div>
   </section>
